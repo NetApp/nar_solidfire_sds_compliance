@@ -145,7 +145,8 @@ def run_module():
         rules = load_yaml(module.params["compliance_file"])
 
         full_report = dict()
-        matched_configs = []
+        compliant = False
+        fact_product_name = module.params["facts"]["product_name"]
 
         # Each top level entry in the rules file represents a supported configuration
         # aka a single row in IMT
@@ -153,17 +154,18 @@ def run_module():
             logging.info("Checking source configuration: %s", config_name)
 
             constraints = rules[config_name]["rules"]
+            rule_product_name = constraints["Server Instance"]["components"]["product_name"]["expected"]
 
-            compliant, full_report[config_name] = compare_facts(constraints, module.params["facts"])
-            if compliant:
-                matched_configs.append(config_name)
+            if rule_product_name != fact_product_name:
+                continue
+            else:
+                compliant, full_report[config_name] = compare_facts(constraints, module.params["facts"])
+                break
 
-        if matched_configs:
-            logging.info("Facts match supported configurations: %s", matched_configs)
-            compliant = True
+        if compliant:
+            logging.info("Facts match supported configurations: %s", fact_product_name)
         else:
-            logging.warning("No supported configuration for supplied facts.")
-            compliant = False
+            logging.warning("No supported configuration for supplied facts: %s", fact_product_name)
 
         with open(module.params["report_path"], "w") as report_file:
             report_file.write(yaml.dump(full_report))

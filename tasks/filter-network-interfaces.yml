@@ -1,0 +1,18 @@
+---
+- name: "Check SolidFire Compliance"
+  delegate_to: localhost
+
+  block:
+    - name: Filter interfaces for HPE nodes
+      set_fact:
+        filtered_interfaces: "{{ ansible_interfaces | reject('equalto', 'cni-podman0') | reject('equalto', 'enp1s0f4u4') | list }}"
+      when: ansible_facts['system_vendor'] == 'HPE'
+    
+    - name: Filter interfaces for Dell nodes
+      set_fact:
+        filtered_interfaces: "{{ ansible_interfaces | reject('equalto', 'cni-podman0') | list }}"
+      when: ansible_facts['system_vendor'] == 'Dell Inc.'
+
+    - name: Add filtered interfaces to ansible facts
+      set_fact:
+         ansible_facts: "{{ ansible_facts | combine({ 'filtered_interfaces': filtered_interfaces | default(ansible_interfaces) })}}"

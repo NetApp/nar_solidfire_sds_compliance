@@ -9,6 +9,9 @@
     gather_subset: all
   become: True
 
+- name: "Filter network interfaces"
+  include_tasks: filter-network-interfaces.yml
+
 - name: "Check SolidFire Compliance"
   include_tasks: ensure-compliance.yml
 
