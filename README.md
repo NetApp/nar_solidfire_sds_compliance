@@ -6,7 +6,7 @@ This role automates validating NetApp compliance for SolidFire eSDS.
 Requirements
 ------------
 
-This role requires the target systems use RHEL 7.6 or RHEL 7.7.
+This role requires the target systems use RHEL 7.6, 7.7, or 8.2.
 
 Role Variables
 --------------
