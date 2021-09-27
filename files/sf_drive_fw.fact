@@ -3,9 +3,11 @@
 # This gathers firmware versions from nvme drives for use in custom facts
 set -e
 
+count=$(ls /sys/block|grep -c nvme)
+
 echo -n '['
 
-for i in {0..9}; do
+for ((i=0;i<$count;i++)); do
     echo -n ' "'$(cat /sys/block/nvme${i}n1/device/firmware_rev)'",' 
 done | sed 's/.$//'
 

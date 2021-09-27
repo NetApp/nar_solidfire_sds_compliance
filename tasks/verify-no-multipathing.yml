@@ -1,0 +1,11 @@
+---
+- name: "Ensure multipathing is not enabled on host"
+  run_once: True
+  become: True
+  stat:
+    path: /etc/multipath.conf
+  register: multipath_status
+
+- fail:
+    msg: "multipathing is running on host, please disable multipathing on host and remove /etc/multipath.conf"
+  when: multipath_status.stat is defined and multipath_status.stat.exists  is defined and multipath_status.stat.exists

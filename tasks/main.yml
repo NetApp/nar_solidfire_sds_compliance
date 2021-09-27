@@ -1,6 +1,14 @@
 ---
 # tasks file for nar_solidfire_sds_compliance
 
+- name: "Check/Create report file dir '{{ sf_compliance_report_dir }}'"
+  run_once: True
+  any_errors_fatal: True
+  file:
+    path: "{{ sf_compliance_report_dir }}"
+    state: directory
+  become: True
+
 - name: Ensure custom fact scripts are installed
   include_tasks: custom-facts.yml
 
@@ -8,6 +16,9 @@
   setup:
     gather_subset: all
   become: True
+
+- name: "Make sure multipathing is not enabled on hosts"
+  include_tasks: verify-no-multipathing.yml
 
 - name: "Filter network interfaces"
   include_tasks: filter-network-interfaces.yml

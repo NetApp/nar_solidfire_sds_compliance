@@ -1,0 +1,26 @@
+---
+supported_cpus:
+  - {"processor":"Intel(R) Xeon(R) Silver 4208",  "processor_count":2, "processor_cores":8,  "processor_nproc":32}
+  - {"processor":"Intel(R) Xeon(R) Silver 4210",  "processor_count":2, "processor_cores":10, "processor_nproc":40}
+  - {"processor":"Intel(R) Xeon(R) Silver 4210T", "processor_count":2, "processor_cores":10, "processor_nproc":40}
+  - {"processor":"Intel(R) Xeon(R) Silver 4210R", "processor_count":2, "processor_cores":10, "processor_nproc":40}
+  - {"processor":"Intel(R) Xeon(R) Silver 4214",  "processor_count":2, "processor_cores":12, "processor_nproc":48}
+  - {"processor":"Intel(R) Xeon(R) Silver 4214R", "processor_count":2, "processor_cores":12, "processor_nproc":48}
+  - {"processor":"Intel(R) Xeon(R) Silver 4216",  "processor_count":2, "processor_cores":16, "processor_nproc":64}
+  - {"processor":"Intel(R) Xeon(R) Gold 5218",    "processor_count":2, "processor_cores":16, "processor_nproc":64}
+  - {"processor":"Intel(R) Xeon(R) Gold 5218T",   "processor_count":2, "processor_cores":16, "processor_nproc":64}
+  - {"processor":"Intel(R) Xeon(R) Gold 5218R",   "processor_count":2, "processor_cores":20, "processor_nproc":80}
+  - {"processor":"Intel(R) Xeon(R) Gold 5220",    "processor_count":2, "processor_cores":18, "processor_nproc":72}
+  - {"processor":"Intel(R) Xeon(R) Gold 5220T",   "processor_count":2, "processor_cores":18, "processor_nproc":72}
+  - {"processor":"Intel(R) Xeon(R) Gold 5220R",   "processor_count":2, "processor_cores":24, "processor_nproc":96}
+  - {"processor":"Intel(R) Xeon(R) Gold 6230",    "processor_count":2, "processor_cores":20, "processor_nproc":80}
+  - {"processor":"Intel(R) Xeon(R) Gold 6230T",   "processor_count":2, "processor_cores":20, "processor_nproc":80}
+  - {"processor":"Intel(R) Xeon(R) Gold 6230R",   "processor_count":2, "processor_cores":26, "processor_nproc":104}
+  - {"processor":"Intel(R) Xeon(R) Gold 6238",    "processor_count":2, "processor_cores":22, "processor_nproc":88}
+  - {"processor":"Intel(R) Xeon(R) Gold 6238T",   "processor_count":2, "processor_cores":22, "processor_nproc":88}
+  - {"processor":"Intel(R) Xeon(R) Gold 6238R",   "processor_count":2, "processor_cores":28, "processor_nproc":112}
+  - {"processor":"Intel(R) Xeon(R) Gold 6240",    "processor_count":2, "processor_cores":18, "processor_nproc":72}
+  - {"processor":"Intel(R) Xeon(R) Gold 6240R",   "processor_count":2, "processor_cores":24, "processor_nproc":96}
+  - {"processor":"Intel(R) Xeon(R) Gold 6248",    "processor_count":2, "processor_cores":20, "processor_nproc":80}
+  - {"processor":"Intel(R) Xeon(R) Gold 6248R",   "processor_count":2, "processor_cores":24, "processor_nproc":96}
+  - {"processor":"Intel(R) Xeon(R) Gold 6252",    "processor_count":2, "processor_cores":24, "processor_nproc":96}

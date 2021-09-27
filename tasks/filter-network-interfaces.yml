@@ -3,14 +3,22 @@
   delegate_to: localhost
 
   block:
+    - set_fact:
+        filtered_interfaces: []
+
+    - name: Remove vlan tags for all interfaces to check base name lengths
+      set_fact:
+        filtered_interfaces: "{{ filtered_interfaces + [ item.split('.') | first ] }}"
+      loop: "{{ ansible_interfaces }}"
+
     - name: Filter interfaces for HPE nodes
       set_fact:
-        filtered_interfaces: "{{ ansible_interfaces | reject('equalto', 'cni-podman0') | reject('equalto', 'enp1s0f4u4') | list }}"
+        filtered_interfaces: "{{ filtered_interfaces | reject('equalto', 'cni-podman0') | reject('equalto', 'enp1s0f4u4') | list }}"
       when: ansible_facts['system_vendor'] == 'HPE'
     
     - name: Filter interfaces for Dell nodes
       set_fact:
-        filtered_interfaces: "{{ ansible_interfaces | reject('equalto', 'cni-podman0') | list }}"
+        filtered_interfaces: "{{ filtered_interfaces | reject('equalto', 'cni-podman0') | list }}"
       when: ansible_facts['system_vendor'] == 'Dell Inc.'
 
     - name: Add filtered interfaces to ansible facts

@@ -35,6 +35,32 @@ def load_yaml(filename):
             raise ComplianceException("Error loading yaml file: {}".format(e), e)
     return data
 
+def compare_cpu(cpu_file, facts):
+    """Compare CPU facts from ansible_facts to the supported list of processors"""
+
+    actual = {"processor":facts["processor"][2],
+              "processor_count":facts["processor_count"],
+              "processor_cores":facts["processor_cores"],
+              "processor_nproc":facts["processor_nproc"]}
+    report = dict()
+    report["Processor"] = {}
+    report["Processor"]["expected"] = {}
+    report["Processor"]["actual"] = actual
+    report["Processor"]["compliant"] = False
+    match = False
+
+    content = load_yaml(cpu_file)
+    for expected in content["supported_cpus"]:
+        match = (expected["processor"] in actual["processor"] and
+                 expected["processor_count"] == actual["processor_count"] and
+                 expected["processor_cores"] == actual["processor_cores"] and
+                 expected["processor_nproc"] == actual["processor_nproc"])
+        if match:
+            report["Processor"]["compliant"] = True
+            report["Processor"]["expected"] = expected
+            break
+    return match, report
+
 def compare_facts(constraints, facts):
     """Compare the constraints to the facts from a system and determine compliance"""
 
@@ -125,7 +151,8 @@ def compare_facts(constraints, facts):
 def run_module():
     """Entrypoint when run as an ansible module"""
     module_args = dict(
-        compliance_file=dict(type="str", required=True),
+        rule_file=dict(type="str", required=True),
+        cpu_file=dict(type="str", required=True),
         facts=dict(type="dict", required=True),
         report_path=dict(type="str", required=True)
     )
@@ -141,8 +168,8 @@ def run_module():
             logging.info("Creating report directory %s", report_dir)
             os.mkdir(report_dir)
 
-        logging.info("Loading compliance rules from file: {}".format(module.params["compliance_file"]))
-        rules = load_yaml(module.params["compliance_file"])
+        logging.info("Loading compliance rules from file: {}".format(module.params["rule_file"]))
+        rules = load_yaml(module.params["rule_file"])
 
         full_report = dict()
         compliant = False
@@ -159,13 +186,22 @@ def run_module():
             if rule_product_name != fact_product_name:
                 continue
             else:
-                compliant, full_report[config_name] = compare_facts(constraints, module.params["facts"])
+                # We have to check CPU facts separately from other facts due to complexity.
+                compliant1, report1 = compare_cpu(module.params["cpu_file"], module.params["facts"])
+                compliant2, report2 = compare_facts(constraints, module.params["facts"])
+                full_report[config_name] = report1
+                full_report[config_name].update(report2)
+                compliant = compliant1 and compliant2
                 break
 
         if compliant:
             logging.info("Facts match supported configurations: %s", fact_product_name)
         else:
             logging.warning("No supported configuration for supplied facts: %s", fact_product_name)
+            if len(full_report) == 0:
+               full_report["compliant"] = False
+               full_report["product_name"] = fact_product_name
+               full_report["error"] = "This product is not supported for SolidFire eSDS"
 
         with open(module.params["report_path"], "w") as report_file:
             report_file.write(yaml.dump(full_report))
