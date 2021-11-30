@@ -53,8 +53,8 @@ esds-hpe-dl360-gen10-p2:
         - "SPP"
       components:
         "bios_version":
-          expected: "U32"
-          query: "bios_version == `{expected}`"
+          expected: ["U32"]
+          query: "contains({expected}, bios_version)"
           actual: "bios_version"
         "management_nic_firmware":
           expected: "10.51.3"
@@ -62,7 +62,7 @@ esds-hpe-dl360-gen10-p2:
           query: "ansible_local.sf_nic_details[?driver == `ixgbe`].firmware_version | [?contains(`{expected}`, @)] | length(@) == `{count}`"
           actual: "ansible_local.sf_nic_details[?driver == `ixgbe`].firmware_version"
         "storage_nic_firmware":
-          expected: ["14.26.1040 (HP_2420110034)", "14.29.1016 (HP_2420110034)"]
+          expected: ["14.26.1040 (HP_2420110034)", "14.29.1016 (HP_2420110034)", "16.31.1200 (HP_2420110034)"]
           count: 2
           query: "ansible_local.sf_nic_details[?driver == `mlx5_core`].firmware_version | [?contains({expected}, @)] | length(@) == `{count}`"
           actual: "ansible_local.sf_nic_details[?driver == `mlx5_core`].firmware_version"
@@ -185,8 +185,8 @@ esds-hpe-dl380-gen10-p0:
         - "SPP"
       components:
         "bios_version":
-          expected: "U30"
-          query: "bios_version == `{expected}`"
+          expected: ["U30", "U32"]
+          query: "contains({expected}, bios_version)"
           actual: "bios_version"
         "management_nic_firmware":
           expected: "10.54.4"
@@ -194,7 +194,7 @@ esds-hpe-dl380-gen10-p0:
           query: "ansible_local.sf_nic_details[?driver == `ixgbe`].firmware_version | [?contains(`{expected}`, @)] | length(@) <= `{count}`"
           actual: "ansible_local.sf_nic_details[?driver == `ixgbe`].firmware_version"
         "storage_nic_firmware":
-          expected: ["14.29.1016 (HP_2420110034)"]
+          expected: ["14.29.1016 (HP_2420110034)", "16.31.1200 (HP_2420110034)"]
           count: 2
           query: "ansible_local.sf_nic_details[?driver == `mlx5_core`].firmware_version | [?contains({expected}, @)] | length(@) == `{count}`"
           actual: "ansible_local.sf_nic_details[?driver == `mlx5_core`].firmware_version"
@@ -314,11 +314,11 @@ esds-dell-r640-p0:
 
     "Service Pack":
       displayName:
-        - "SPP"
+        - "DELL Service Pack"
       components:
         "bios_version":
-          expected: "2.10.0"
-          query: "bios_version == `{expected}`"
+          expected: ["2.10.0", "2.12.2"]
+          query: "contains({expected}, bios_version)"
           actual: "bios_version"
         "management_nic_firmware":
           expected: "19.5.12"
@@ -326,9 +326,9 @@ esds-dell-r640-p0:
           query: "ansible_local.sf_nic_details[?driver == `igb`].firmware_version | [?contains(@, `{expected}`)] | length(@) == `{count}`"
           actual: "ansible_local.sf_nic_details[?driver == `igb`].firmware_version"
         "storage_nic_firmware":
-          expected: "14.27.6122"
+          expected: ["14.27.6122 (DEL2810000034)", "14.31.1014 (DEL2810000034)"]
           count: 2
-          query: "ansible_local.sf_nic_details[?driver == `mlx5_core`].firmware_version | [?contains(@, `{expected}`)] | length(@) == `{count}`"
+          query: "ansible_local.sf_nic_details[?driver == `mlx5_core`].firmware_version | [?contains({expected}, @)] | length(@) == `{count}`"
           actual: "ansible_local.sf_nic_details[?driver == `mlx5_core`].firmware_version"
         "storage_drive_firmware":
           expected: "VDV10131"

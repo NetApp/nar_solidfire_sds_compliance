@@ -1,0 +1,21 @@
+---
+- name: "Check multipathing on host"
+  run_once: True
+  become: True
+  stat:
+    path: /etc/multipath.conf
+  register: multipath_status
+
+- name: Ensure we fail if multipathing is running on host
+  fail:
+    msg: "multipathing is running on host, please disable multipathing on host and remove /etc/multipath.conf"
+  when: multipath_status.stat is defined and multipath_status.stat.exists  is defined and multipath_status.stat.exists
+
+- name: Check if Python3 is installed on host
+  shell: python3 --version
+  register: output
+
+- name: Ensure we quit if Python3 is not installed on host
+  fail:
+    msg: "Plese install Python version 3.6 or later on {{ ansible_host }}, then try again"
+  when: output.stdout is not search('Python 3')

@@ -1,0 +1,8 @@
+- name: Ensure the required minimum version of Ansible is being used
+  delegate_to: localhost
+  run_once: True
+  assert:
+    that:
+      - ansible_version['full'] is version('2.10.0', '>=')
+    fail_msg: >
+      "Error: Please install an Ansible version >= 2.10.0 on the controller."
