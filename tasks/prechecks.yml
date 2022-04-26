@@ -17,5 +17,5 @@
 
 - name: Ensure we quit if Python3 is not installed on host
   fail:
-    msg: "Plese install Python version 3.6 or later on {{ ansible_host }}, then try again"
+    msg: "Please install Python version 3.6 or later on {{ ansible_host }}, then try again"
   when: output.stdout is not search('Python 3')
