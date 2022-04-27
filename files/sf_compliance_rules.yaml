@@ -28,7 +28,7 @@
 # Storage Drive FW: ‘HPK1’ or 'MPK70H5Q'
 # Cache Device: ‘1x 375 GB Intel Optane SSD’
 # Cache Device FW: ‘4ICSHPK2’
-# Host OS: ‘RHEL Server 7.6, 7.7, 7.9, 8.2 64-bit’
+# Host OS: ‘RHEL Server 7.6, 7.7, 7.9, 8.2, 8.4 64-bit’
 # Element OS: ‘Element 12.2’
 # Cluster Management NIC: ‘2x Intel 10G X550T’
 # Storage NIC: ‘2x Mellanox 25G ConnectX-4 Lx’
@@ -115,7 +115,7 @@ esds-hpe-dl360-gen10-p2:
           query: "distribution == `{expected}`"
           actual: "distribution"
         "distribution_version":
-          expected: ["7.6", "7.7", "7.9", "8.2"]
+          expected: ["7.6", "7.7", "7.9", "8.2", "8.4"]
           query: "contains(`{expected}`, distribution_version)"
           actual: "distribution_version"
         "architecture":
@@ -247,7 +247,7 @@ esds-hpe-dl380-gen10-p0:
           query: "distribution == `{expected}`"
           actual: "distribution"
         "distribution_version":
-          expected: ["7.9", "8.2"]
+          expected: ["7.9", "8.2", "8.4"]
           query: "contains(`{expected}`, distribution_version)"
           actual: "distribution_version"
         "architecture":
@@ -379,7 +379,7 @@ esds-dell-r640-p0:
           query: "distribution == `{expected}`"
           actual: "distribution"
         "distribution_version":
-          expected: ["7.6", "7.7", "7.9", "8.2"]
+          expected: ["7.6", "7.7", "7.9", "8.2", "8.4"]
           query: "contains(`{expected}`, distribution_version)"
           actual: "distribution_version"
         "architecture":
